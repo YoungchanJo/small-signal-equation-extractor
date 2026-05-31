@@ -876,7 +876,7 @@ $$
 For a selected passive or equivalent-circuit capacitance, zero means open circuit. For a coefficient-mode device capacitance term, zero means coefficient isolation, not a topology change. In both cases, the selected current contribution is not stamped:
 
 $$
-C_{M,gd}\in\text{zero\_cap}\quad\Rightarrow\quad
+C_{M,gd}\in\operatorname{zero\_cap}\quad\Rightarrow\quad
 sC_{M,gd}(v_g-v_d)\ \mathrm{is\ omitted}
 $$
 
@@ -884,7 +884,7 @@ $$
 For a selected resistance, zero means ideal short circuit. The reciprocal admittance stamp is replaced by a branch-current unknown and a voltage equality constraint:
 
 $$
-R_D\in\text{zero\_resistance}\quad\Rightarrow\quad
+R_D\in\operatorname{zero\_resistance}\quad\Rightarrow\quad
 \begin{cases}
 i_{R_D}\ \mathrm{is\ stamped\ into\ KCL}\\
 v_a-v_b=0
@@ -892,7 +892,7 @@ v_a-v_b=0
 $$
 
 $$
-r_M\in\text{zero\_resistance}\quad\Rightarrow\quad
+r_M\in\operatorname{zero\_resistance}\quad\Rightarrow\quad
 \begin{cases}
 i_{M,r}\ \mathrm{is\ stamped\ into\ KCL}\\
 v_d-v_s=0
@@ -902,7 +902,7 @@ $$
 For a selected inductance, zero also means ideal short circuit. The branch current is still stamped, but the `sL` term is removed from the inductor constraint:
 
 $$
-L_D\in\text{zero\_inductance}\quad\Rightarrow\quad
+L_D\in\operatorname{zero\_inductance}\quad\Rightarrow\quad
 \begin{cases}
 i_{L_D}\ \mathrm{is\ stamped\ into\ KCL}\\
 v_a-v_b=0
