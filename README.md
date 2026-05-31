@@ -6,6 +6,8 @@ The project is an equation extractor, not a circuit simulator. It does not compu
 
 ## Installation
 
+Python 3.10 or later is required.
+
 Clone the repository and run it from the repository root:
 
 ```bash
