@@ -497,10 +497,22 @@ The final suffix in `g_{M,gs,r}` or `C_{M,c,r}` is the KCL row terminal. The `C_
 For `body="on"`, the compact matrix form is:
 
 $$
-\mathbf{i}_M=G_M\mathbf{u}_M+sC_M\mathbf{v}_M
+\boldsymbol{i}_{M}=G_M\boldsymbol{u}_{M}+sC_M\boldsymbol{v}_{M}
 $$
 
-where $\mathbf{i}_M=(i_{M,g},i_{M,d},i_{M,s},i_{M,b})^T$, $\mathbf{u}_M=(v_g-v_s,v_d-v_s,v_b-v_s)^T$, and $\mathbf{v}_M=(v_g,v_d,v_s,v_b)^T$.
+where the vectors are defined as follows:
+
+$$
+\boldsymbol{i}_{M}=\left(i_{M,g},i_{M,d},i_{M,s},i_{M,b}\right)^{T}
+$$
+
+$$
+\boldsymbol{u}_{M}=\left(v_g-v_s,\ v_d-v_s,\ v_b-v_s\right)^{T}
+$$
+
+$$
+\boldsymbol{v}_{M}=\left(v_g,v_d,v_s,v_b\right)^{T}
+$$
 
 The rows of $G_M$ are ordered as $g,d,s,b$, and its columns are ordered as $gs,ds,bs$:
 
@@ -655,10 +667,22 @@ $$
 Compact matrix form:
 
 $$
-\mathbf{i}_Q=G_Q\mathbf{u}_Q+sC_Q\mathbf{v}_Q
+\boldsymbol{i}_{Q}=G_Q\boldsymbol{u}_{Q}+sC_Q\boldsymbol{v}_{Q}
 $$
 
-where $\mathbf{i}_Q=(i_{Q,c},i_{Q,b},i_{Q,e})^T$, $\mathbf{u}_Q=(v_b-v_e,v_c-v_e)^T$, and $\mathbf{v}_Q=(v_c,v_b,v_e)^T$.
+where the vectors are defined as follows:
+
+$$
+\boldsymbol{i}_{Q}=\left(i_{Q,c},i_{Q,b},i_{Q,e}\right)^{T}
+$$
+
+$$
+\boldsymbol{u}_{Q}=\left(v_b-v_e,\ v_c-v_e\right)^{T}
+$$
+
+$$
+\boldsymbol{v}_{Q}=\left(v_c,v_b,v_e\right)^{T}
+$$
 
 The rows of $G_Q$ are ordered as $c,b,e$, and its columns are ordered as $be,ce$:
 
