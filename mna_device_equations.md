@@ -873,38 +873,35 @@ $$
 
 `zero_cap`, `zero_resistance`, and `zero_inductance` set selected symbolic element values to zero with their circuit meaning preserved.
 
-For a selected passive or equivalent-circuit capacitance, zero means open circuit. For a coefficient-mode device capacitance term, zero means coefficient isolation, not a topology change. In both cases, the selected current contribution is not stamped:
+For a selected passive or equivalent-circuit capacitance, zero means open circuit. For a coefficient-mode device capacitance term, zero means coefficient isolation, not a topology change. In both cases, the selected current contribution is not stamped. If $C_{M,gd}$ is listed in `zero_cap`, then:
 
 $$
-C_{M,gd}\in\mathrm{zero\_cap}\quad\Rightarrow\quad
-sC_{M,gd}(v_g-v_d)\ \mathrm{is\ omitted}
+sC_{M,gd}(v_g-v_d)\ \text{is omitted}
 $$
 
-
-For a selected resistance, zero means ideal short circuit. The reciprocal admittance stamp is replaced by a branch-current unknown and a voltage equality constraint:
+For a selected resistance, zero means ideal short circuit. The reciprocal admittance stamp is replaced by a branch-current unknown and a voltage equality constraint. If $R_D$ is listed in `zero_resistance`, then:
 
 $$
-R_D\in\mathrm{zero\_resistance}\quad\Rightarrow\quad
 \begin{cases}
-i_{R_D}\ \mathrm{is\ stamped\ into\ KCL}\\
+i_{R_D}\ \text{is stamped into KCL}\\
 v_a-v_b=0
 \end{cases}
 $$
 
+If $r_M$ is listed in `zero_resistance`, then:
+
 $$
-r_M\in\mathrm{zero\_resistance}\quad\Rightarrow\quad
 \begin{cases}
-i_{M,r}\ \mathrm{is\ stamped\ into\ KCL}\\
+i_{M,r}\ \text{is stamped into KCL}\\
 v_d-v_s=0
 \end{cases}
 $$
 
-For a selected inductance, zero also means ideal short circuit. The branch current is still stamped, but the `sL` term is removed from the inductor constraint:
+For a selected inductance, zero also means ideal short circuit. The branch current is still stamped, but the `sL` term is removed from the inductor constraint. If $L_D$ is listed in `zero_inductance`, then:
 
 $$
-L_D\in\mathrm{zero\_inductance}\quad\Rightarrow\quad
 \begin{cases}
-i_{L_D}\ \mathrm{is\ stamped\ into\ KCL}\\
+i_{L_D}\ \text{is stamped into KCL}\\
 v_a-v_b=0
 \end{cases}
 $$
