@@ -11,7 +11,7 @@ Python 3.10 or later is required.
 Clone the repository and run it from the repository root:
 
 ```bash
-git clone https://github.com/<owner>/small-signal-equation-extractor.git
+git clone https://github.com/YoungchanJo/small-signal-equation-extractor.git
 cd small-signal-equation-extractor
 ```
 

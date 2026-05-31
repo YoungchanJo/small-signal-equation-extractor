@@ -1,5 +1,5 @@
 * Two stage OPAMP
-.include 45nm_bulk.txt
+.include pdk.txt
 .include @PARAM_PATH@
 
 mp1 n4 n4 VDD VDD pmos l={L0} w={W0} m={M0}
