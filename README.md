@@ -41,6 +41,8 @@ ssas.solve(
 )
 ```
 
+$$H(s)=\frac{1}{s R_{1} C_{1}+1}$$
+
 For a file-based netlist, use `source="file"`:
 
 ```python
