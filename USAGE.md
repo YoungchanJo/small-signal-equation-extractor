@@ -8,7 +8,10 @@ The extractor is not a simulator. It does not compute an operating point, parse 
 
 Use one public method: `solve(...)`.
 
-A minimal inline-netlist call is ssas.solve(netlist, "V(out) / V(in)", "rc\_lowpass.md", source="inline"). A file-netlist call is ssas.solve("netlists/cs\_amp.sp", "V(out) / V(in)", "cs\_gain.md", source="file").
+Minimal calls are:
+
+- Inline netlist: `ssas.solve(netlist, "V(out) / V(in)", "rc_lowpass.md", source="inline")`
+- File netlist: `ssas.solve("netlists/cs_amp.sp", "V(out) / V(in)", "cs_gain.md", source="file")`
 
 `source` is mandatory. Use `source="inline"` for netlist text and `source="file"` for a netlist path. `SSAS` does not infer whether the first argument is inline netlist text or a path.
 
@@ -20,13 +23,13 @@ $$
 
 ## 2. Path routing
 
-Construct `SSAS` with SSAS(output\_dir="tutorial\_outputs") for ordinary relative routing.
+Construct `SSAS` with `SSAS(output_dir="tutorial_outputs")` for ordinary relative routing.
 
-With the default absolute\_route=False, relative paths are routed from the caller location: in a `.py` script, from the directory containing that script; in a notebook, from the notebook working directory, which should be the directory containing `tutorial.ipynb`.
+With the default `absolute_route=False`, relative paths are routed from the caller location: in a `.py` script, from the directory containing that script; in a notebook, from the notebook working directory, which should be the directory containing `tutorial.ipynb`.
 
-The same route rule applies to output\_dir, relative output filenames passed to `solve(...)`, and relative netlist paths passed with `source="file"`.
+The same route rule applies to `output_dir`, relative output filenames passed to `solve(...)`, and relative netlist paths passed with `source="file"`.
 
-Use absolute\_route=True only when the paths passed to `SSAS` and `solve(...)` are intended to be absolute-path based, for example SSAS(output\_dir="/tmp/ssas\_outputs", absolute\_route=True).
+Use `absolute_route=True` only when the paths passed to `SSAS` and `solve(...)` are intended to be absolute-path based, for example `SSAS(output_dir="/tmp/ssas_outputs", absolute_route=True)`.
 
 If an output file already exists, the new result overwrites it.
 
@@ -49,17 +52,17 @@ The left-hand side is always `H(s)`; the request controls the solved expression 
 
 ## 4. Rendering options
 
-### zero\_pole
+### `zero_pole`
 
-Use zero\_pole=True to append zero-pole analysis after the ordinary response. It does not replace `H(s)`.
+Use `zero_pole=True` to append zero-pole analysis after the ordinary response. It does not replace `H(s)`.
 
-Without zero\_pole, the file ends after the response and its auxiliary definitions:
+Without `zero_pole`, the file ends after the response and its auxiliary definitions:
 
 $$
 H(s)=\frac{\cdots}{\cdots}
 $$
 
-With zero\_pole=True, the same response is kept and a final section is appended:
+With `zero_pole=True`, the same response is kept and a final section is appended:
 
 $$
 H(s)=\frac{\cdots}{\cdots}
@@ -81,11 +84,11 @@ $$
 \text{remaining poles: analytic extraction failed}
 $$
 
-### fraction\_symbol\_threshold
+### `fraction_symbol_threshold`
 
 The renderer always simplifies the displayed rational expression when simplification reduces rendering cost. For example, a conductance-first internal form may be displayed as a resistance-based compact expression when that form is shorter.
 
-fraction\_symbol\_threshold controls only when a long coefficient expression is replaced by an auxiliary definition such as E\_{1}. The replaced expression can contain products, sums, powers, or rational subexpressions. This option does not enable or disable ordinary expression simplification. The default is `10`. Use fraction\_symbol\_threshold=0 to suppress E\_i coefficient replacement.
+`fraction_symbol_threshold` controls only when a long coefficient expression is replaced by an auxiliary definition such as `E_{1}`. The replaced expression can contain products, sums, powers, or rational subexpressions. This option does not enable or disable ordinary expression simplification. The default is `10`. Use `fraction_symbol_threshold=0` to suppress `E_i` coefficient replacement.
 
 Typical output when no coefficient replacement is used:
 
@@ -109,9 +112,9 @@ Use `show=True` in a notebook to display the generated Markdown immediately. It 
 
 ## 5. Circuit-mode options
 
-### eq\_circuit
+### `eq_circuit`
 
-eq\_circuit=True selects equivalent-circuit mode for supported compact devices. MOSFETs use g\_m, optional g\_mb, r\_o, and terminal-pair capacitances such as C\_{mn1,gs} and C\_{mn1,gd}. Bipolar junction transistors use an equivalent-circuit stamp with transconductance, input resistance, output resistance, and terminal-pair capacitances.
+`eq_circuit=True` selects equivalent-circuit mode for supported compact devices. MOSFETs use `g_m`, optional `g_mb`, `r_o`, and terminal-pair capacitances such as `C_{mn1,gs}` and `C_{mn1,gd}`. Bipolar junction transistors use an equivalent-circuit stamp with transconductance, input resistance, output resistance, and terminal-pair capacitances.
 
 Representative MOSFET equivalent-circuit fragment:
 
@@ -119,7 +122,7 @@ $$
 H(s)=\frac{-g_{mn1}r_{mn1}R_{D}}{r_{mn1}+R_{D}+\cdots}
 $$
 
-eq\_circuit=False selects coefficient mode for supported compact devices. For MOSFETs, this is a BSIM4-compatible external-port coefficient stamp: a separate BSIM4 wrapper may supply terminal-current and terminal-charge derivative coefficients after evaluating BSIM4 and reducing internal BSIM4 nodes to the external terminal port. For bipolar junction transistors, this mode uses symbolic differential conductance and device differential capacitance coefficients. The extractor itself only stamps the supplied symbolic coefficients.
+`eq_circuit=False` selects coefficient mode for supported compact devices. For MOSFETs, this is a BSIM4-compatible external-port coefficient stamp: a separate BSIM4 wrapper may supply terminal-current and terminal-charge derivative coefficients after evaluating BSIM4 and reducing internal BSIM4 nodes to the external terminal port. For bipolar junction transistors, this mode uses symbolic differential conductance and device differential capacitance coefficients. The extractor itself only stamps the supplied symbolic coefficients.
 
 Representative MOSFET coefficient-mode fragment:
 
@@ -158,15 +161,15 @@ $$
 \end{aligned}
 $$
 
-The option is meaningful for MOSFETs in both eq\_circuit=True and eq\_circuit=False modes. It does not affect bipolar junction transistor stamps.
+The option is meaningful for MOSFETs in both `eq_circuit=True` and `eq_circuit=False` modes. It does not affect bipolar junction transistor stamps.
 
 ## 6. Term-selection options
 
 The following options apply to compact-device instances in both circuit modes unless stated otherwise. The examples below use MOSFET and bipolar junction transistor symbols.
 
-### off\_device
+### `off_device`
 
-off\_device removes conductance or current terms for selected compact-device instances. It leaves device capacitance terms enabled. Use off\_device="mn1" or off\_device=["mn1", "mp3"].
+`off_device` removes conductance or current terms for selected compact-device instances. It leaves device capacitance terms enabled. Use `off_device="mn1"` or `off_device=["mn1", "mp3"]`.
 
 Representative equivalent-circuit change:
 
@@ -186,9 +189,9 @@ $$
 \end{aligned}
 $$
 
-### off\_device\_cap
+### `off_device_cap`
 
-off\_device\_cap removes capacitance terms for selected compact-device instances. It leaves conductance or current terms enabled. Use off\_device\_cap="mn1" or off\_device\_cap=["mn1", "q2"].
+`off_device_cap` removes capacitance terms for selected compact-device instances. It leaves conductance or current terms enabled. Use `off_device_cap="mn1"` or `off_device_cap=["mn1", "q2"]`.
 
 Representative equivalent-circuit change:
 
@@ -208,18 +211,18 @@ $$
 \end{aligned}
 $$
 
-off\_device and off\_device\_cap are independent:
+`off_device` and `off_device_cap` are independent:
 
 | Options | Conductance/current terms | Capacitance terms |
 |---|---|---|
 | neither option | included | included |
-| off\_device="mn1" | removed | included |
-| off\_device\_cap="mn1" | included | removed |
+| `off_device="mn1"` | removed | included |
+| `off_device_cap="mn1"` | included | removed |
 | both contain the same device | removed | removed |
 
-### zero\_cap
+### `zero_cap`
 
-zero\_cap removes selected capacitance terms by symbol name. Use zero\_cap="C\_mn1\_gd" for an equivalent-circuit terminal-pair capacitance, zero\_cap="C\_mn1\_g\_d" for a MOSFET coefficient-mode device differential capacitance coefficient, zero\_cap="C\_q1\_b\_c" for a bipolar junction transistor coefficient-mode device differential capacitance coefficient, or zero\_cap="C\_1" for a passive capacitor.
+`zero_cap` removes selected capacitance terms by symbol name. Use `zero_cap="C_mn1_gd"` for an equivalent-circuit terminal-pair capacitance, `zero_cap="C_mn1_g_d"` for a MOSFET coefficient-mode device differential capacitance coefficient, `zero_cap="C_q1_b_c"` for a bipolar junction transistor coefficient-mode device differential capacitance coefficient, or `zero_cap="C_1"` for a passive capacitor.
 
 Equivalent-circuit MOSFET example:
 
@@ -248,9 +251,9 @@ $$
 \end{aligned}
 $$
 
-### zero\_resistance
+### `zero_resistance`
 
-zero\_resistance replaces selected passive or equivalent-circuit resistance symbols with ideal shorts. Use zero\_resistance="R\_D" for a passive resistor or zero\_resistance="r\_mn1" for an equivalent-circuit compact-device output resistance.
+`zero_resistance` replaces selected passive or equivalent-circuit resistance symbols with ideal shorts. Use `zero_resistance="R_D"` for a passive resistor or `zero_resistance="r_mn1"` for an equivalent-circuit compact-device output resistance.
 
 Representative change for a common-source load resistor:
 
@@ -261,11 +264,11 @@ $$
 \end{aligned}
 $$
 
-Equivalent MOSFET or bipolar junction transistor internal resistance symbols exist only in equivalent-circuit mode. Passive-resistance shorting applies in both eq\_circuit=True and eq\_circuit=False.
+Equivalent MOSFET or bipolar junction transistor internal resistance symbols exist only in equivalent-circuit mode. Passive-resistance shorting applies in both `eq_circuit=True` and `eq_circuit=False`.
 
-### zero\_inductance
+### `zero_inductance`
 
-zero\_inductance replaces selected inductance symbols with ideal shorts. Use zero\_inductance="L\_1" for a passive inductor.
+`zero_inductance` replaces selected inductance symbols with ideal shorts. Use `zero_inductance="L_1"` for a passive inductor.
 
 Representative change:
 
@@ -276,11 +279,11 @@ $$
 \end{aligned}
 $$
 
-This option is independent of eq\_circuit; it applies to passive inductors.
+This option is independent of `eq_circuit`; it applies to passive inductors.
 
-### equal\_passive
+### `equal_passive`
 
-equal\_passive aliases passive resistor, capacitor, or inductor value symbols only in the final rendered expression. It does not change topology, stamping, zero-element handling, or current-probe names. Use equal\_passive=("R\_X", ["r1", "r2"]) for one group or equal\_passive=[("R\_X", ["r1", "r2"]), ("C\_X", ["c1", "c2"])] for multiple groups.
+`equal_passive` aliases passive resistor, capacitor, or inductor value symbols only in the final rendered expression. It does not change topology, stamping, zero-element handling, or current-probe names. Use `equal_passive=("R_X", ["r1", "r2"])` for one group or `equal_passive=[("R_X", ["r1", "r2"]), ("C_X", ["c1", "c2"])]` for multiple groups.
 
 Representative change:
 
@@ -291,7 +294,7 @@ $$
 \end{aligned}
 $$
 
-Each group must contain only one passive type. MOSFETs, bipolar junction transistors, sources, and mixed resistor/capacitor/inductor groups are not valid equal\_passive targets.
+Each group must contain only one passive type. MOSFETs, bipolar junction transistors, sources, and mixed resistor/capacitor/inductor groups are not valid `equal_passive` targets.
 
 ## 7. Subcircuits
 
@@ -306,7 +309,7 @@ $$
 \end{aligned}
 $$
 
-subckt\_boundary="ground" ties boundary nodes of skipped sibling subcircuits to small-signal ground. subckt\_boundary="symbolic" exposes them as independent symbolic voltages.
+`subckt_boundary="ground"` ties boundary nodes of skipped sibling subcircuits to small-signal ground. `subckt_boundary="symbolic"` exposes them as independent symbolic voltages.
 
 Representative output effect:
 
