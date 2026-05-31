@@ -14,9 +14,9 @@ A minimal inline-netlist call is `ssas.solve(netlist, "V(out) / V(in)", "rc_lowp
 
 Representative output fragment:
 
-\[
+$$
 H(s)=\frac{1}{C_{1}R_{1}s+1}
-\]
+$$
 
 ## 2. Path routing
 
@@ -38,12 +38,12 @@ For example, `"V(out)"` solves a single node voltage, `"I(RD)"` solves a passive
 
 Representative output changes:
 
-\[
+$$
 \begin{aligned}
 \texttt{V(out):}\quad & H(s)=V_{out}\text{ expression},\\
 \texttt{I(RD):}\quad & H(s)=I_{RD}\text{ expression}.
 \end{aligned}
-\]
+$$
 
 The left-hand side is always `H(s)`; the request controls the solved expression on the right-hand side. `V(0)` and `V(gnd)` are valid zero-voltage probes. MOSFETs, bipolar junction transistors, controlled sources, and subcircuit instances are not public current probes.
 
@@ -55,31 +55,31 @@ Use `zero_pole=True` to append zero-pole analysis after the ordinary response. I
 
 Without `zero_pole`, the file ends after the response and its auxiliary definitions:
 
-\[
+$$
 H(s)=\frac{\cdots}{\cdots}
-\]
+$$
 
 With `zero_pole=True`, the same response is kept and a final section is appended:
 
-\[
+$$
 H(s)=\frac{\cdots}{\cdots}
-\]
+$$
 
-\[
+$$
 \text{zero-pole analysis}
-\]
+$$
 
-\[
+$$
 Z_{1}=s-\left(\cdots\right),
 \qquad
 P_{1}=s-\left(\cdots\right)
-\]
+$$
 
 If a zero or pole factor cannot be solved analytically, the Markdown reports the status instead of raising an exception:
 
-\[
+$$
 \text{remaining poles: analytic extraction failed}
-\]
+$$
 
 ### `fraction_symbol_threshold`
 
@@ -89,19 +89,19 @@ The renderer always simplifies the displayed rational expression when simplifica
 
 Typical output when no coefficient replacement is used:
 
-\[
+$$
 H(s)=\frac{a_{2}s^{2}+a_{1}s+a_{0}}{b_{2}s^{2}+b_{1}s+b_{0}}
-\]
+$$
 
 With a small positive threshold, long coefficient expressions are lifted into definitions, but the transfer function is otherwise the same response:
 
-\[
+$$
 H(s)=\frac{E_{1}s+E_{2}}{E_{3}s^{2}+E_{4}s+E_{5}}
-\]
+$$
 
-\[
+$$
 E_{1}=\cdots
-\]
+$$
 
 ### `show`
 
@@ -115,26 +115,26 @@ Use `show=True` in a notebook to display the generated Markdown immediately. It 
 
 Representative MOSFET equivalent-circuit fragment:
 
-\[
+$$
 H(s)=\frac{-g_{mn1}r_{mn1}R_D}{r_{mn1}+R_D+\cdots}
-\]
+$$
 
 `eq_circuit=False` selects coefficient mode for supported compact devices. For MOSFETs, this is a BSIM4-compatible external-port coefficient stamp: a separate BSIM4 wrapper may supply terminal-current and terminal-charge derivative coefficients after evaluating BSIM4 and reducing internal BSIM4 nodes to the external terminal port. For bipolar junction transistors, this mode uses symbolic differential conductance and device differential capacitance coefficients. The extractor itself only stamps the supplied symbolic coefficients.
 
 Representative MOSFET coefficient-mode fragment:
 
-\[
+$$
 H(s)=\frac{-g_{mn1,gs,d}+sC_{mn1,g,d}+\cdots}{g_{mn1,ds,d}+sC_{mn1,d,d}+\cdots}
-\]
+$$
 
 Representative bipolar junction transistor mode distinction:
 
-\[
+$$
 \begin{aligned}
 \texttt{eq\_circuit=True:}\quad & g_{q1},\ r_{q1,o},\ r_{q1,\pi},\ C_{q1,bc}\text{ may appear},\\
 \texttt{eq\_circuit=False:}\quad & g_{q1,be,c},\ g_{q1,ce,c},\ C_{q1,b,c}\text{ may appear}.
 \end{aligned}
-\]
+$$
 
 ### `body`
 
@@ -142,21 +142,21 @@ Use `body="off"` to omit MOSFET body rows and body-dependent terms from the MOSF
 
 Representative change in equivalent-circuit mode:
 
-\[
+$$
 \begin{aligned}
 \texttt{body="off":}\quad & H(s)=\frac{\cdots g_{mn1}\cdots}{\cdots},\\
 \texttt{body="on":}\quad & H(s)=\frac{\cdots g_{mn1}+\cdots g_{mb,mn1}\cdots}{\cdots}.
 \end{aligned}
-\]
+$$
 
 Representative change in MOSFET coefficient mode:
 
-\[
+$$
 \begin{aligned}
 \texttt{body="off":}\quad & \text{body-dependent coefficient rows are omitted},\\
 \texttt{body="on":}\quad & \text{terms such as }g_{mn1,bs,d}\text{ and }C_{mn1,b,d}\text{ may appear}.
 \end{aligned}
-\]
+$$
 
 The option is meaningful for MOSFETs in both `eq_circuit=True` and `eq_circuit=False` modes. It does not affect bipolar junction transistor stamps.
 
@@ -170,21 +170,21 @@ The following options apply to compact-device instances in both circuit modes un
 
 Representative equivalent-circuit change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & H(s)=\frac{\cdots g_{mn1}\cdots r_{mn1}\cdots C_{mn1,gd}\cdots}{\cdots},\\
 \texttt{off\_device="mn1":}\quad & H(s)=\frac{\cdots C_{mn1,gd}\cdots}{\cdots}.
 \end{aligned}
-\]
+$$
 
 Representative coefficient-mode change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & g_{mn1,gs,d},\ g_{mn1,ds,d},\ C_{mn1,g,d}\text{ may appear},\\
 \texttt{off\_device="mn1":}\quad & g_{mn1,\ast,\ast}\text{ terms are removed; }C_{mn1,\ast,\ast}\text{ terms remain}.
 \end{aligned}
-\]
+$$
 
 ### `off_device_cap`
 
@@ -192,21 +192,21 @@ Representative coefficient-mode change:
 
 Representative equivalent-circuit change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & g_{mn1},\ r_{mn1},\ C_{mn1,gd}\text{ may appear},\\
 \texttt{off\_device\_cap="mn1":}\quad & g_{mn1},\ r_{mn1}\text{ remain; }C_{mn1,\ast}\text{ terms are removed}.
 \end{aligned}
-\]
+$$
 
 Representative coefficient-mode change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & g_{mn1,gs,d},\ C_{mn1,g,d}\text{ may appear},\\
 \texttt{off\_device\_cap="mn1":}\quad & g_{mn1,gs,d}\text{ remains; }C_{mn1,\ast,\ast}\text{ terms are removed}.
 \end{aligned}
-\]
+$$
 
 `off_device` and `off_device_cap` are independent:
 
@@ -223,30 +223,30 @@ Representative coefficient-mode change:
 
 Equivalent-circuit MOSFET example:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & C_{mn1,gd},\ C_{mn1,ds},\ C_{mn1,db}\text{ may appear},\\
 \texttt{zero\_cap="C\_mn1\_gd":}\quad & C_{mn1,gd}\text{ is removed; }C_{mn1,ds}\text{ and }C_{mn1,db}\text{ remain}.
 \end{aligned}
-\]
+$$
 
 MOSFET coefficient-mode example:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & C_{mn1,g,d},\ C_{mn1,d,d}\text{ may appear},\\
 \texttt{zero\_cap="C\_mn1\_g\_d":}\quad & C_{mn1,g,d}\text{ is removed; }C_{mn1,d,d}\text{ remains}.
 \end{aligned}
-\]
+$$
 
 Passive capacitor example:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & H(s)=\frac{1}{C_1R_1s+1},\\
 \texttt{zero\_cap="C\_1":}\quad & H(s)=1.
 \end{aligned}
-\]
+$$
 
 ### `zero_resistance`
 
@@ -254,12 +254,12 @@ Passive capacitor example:
 
 Representative change for a common-source load resistor:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & H(s)=\frac{\cdots R_D\cdots}{\cdots},\\
 \texttt{zero\_resistance="R\_D":}\quad & H(s)=0.
 \end{aligned}
-\]
+$$
 
 Equivalent MOSFET or bipolar junction transistor internal resistance symbols exist only in equivalent-circuit mode. Passive-resistance shorting applies in both `eq_circuit=True` and `eq_circuit=False`.
 
@@ -269,12 +269,12 @@ Equivalent MOSFET or bipolar junction transistor internal resistance symbols exi
 
 Representative change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & H(s)=\frac{L_1s}{L_1s+R_1},\\
 \texttt{zero\_inductance="L\_1":}\quad & H(s)=0.
 \end{aligned}
-\]
+$$
 
 This option is independent of `eq_circuit`; it applies to passive inductors.
 
@@ -284,12 +284,12 @@ This option is independent of `eq_circuit`; it applies to passive inductors.
 
 Representative change:
 
-\[
+$$
 \begin{aligned}
 \text{baseline:}\quad & H(s)=\frac{\cdots R_1+\cdots R_2\cdots}{\cdots},\\
 \texttt{equal\_passive=("R\_X", ...):}\quad & H(s)=\frac{\cdots R_X+\cdots R_X\cdots}{\cdots}.
 \end{aligned}
-\]
+$$
 
 Each group must contain only one passive type. MOSFETs, bipolar junction transistors, sources, and mixed resistor/capacitor/inductor groups are not valid `equal_passive` targets.
 
@@ -299,23 +299,23 @@ Top-level `X...` instances are ignored unless a `subckt` name is selected. When 
 
 Representative output effect:
 
-\[
+$$
 \begin{aligned}
 \texttt{subckt=None:}\quad & \text{top-level selected circuit is solved},\\
 \texttt{subckt="AMP":}\quad & \text{the selected subcircuit instance is expanded into the solved circuit}.
 \end{aligned}
-\]
+$$
 
 `subckt_boundary="ground"` ties boundary nodes of skipped sibling subcircuits to small-signal ground. `subckt_boundary="symbolic"` exposes them as independent symbolic voltages.
 
 Representative output effect:
 
-\[
+$$
 \begin{aligned}
 \texttt{subckt\_boundary="ground":}\quad & \text{skipped boundary voltages are treated as }0,\\
 \texttt{subckt\_boundary="symbolic":}\quad & \text{skipped boundary voltages may appear as symbolic inputs}.
 \end{aligned}
-\]
+$$
 
 ## 8. Netlist subset
 
