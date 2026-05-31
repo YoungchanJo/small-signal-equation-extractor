@@ -494,58 +494,31 @@ $$
 
 The final suffix in `g_{M,gs,r}` or `C_{M,c,r}` is the KCL row terminal. The `C_{M,c,r}` symbols are terminal-charge Jacobian entries. They are not terminal-pair capacitors.
 
-For `body="on"`, the vector relation is:
+For `body="on"`, the compact matrix form is:
 
 $$
-\mathbf{i}_M = G_M\mathbf{v}_{M}^{(G)}+sC_M\mathbf{v}_{M}^{(C)}
+\mathbf{i}_M=G_M\mathbf{u}_M+sC_M\mathbf{v}_M
 $$
 
-where:
+where $\mathbf{i}_M=(i_{M,g},i_{M,d},i_{M,s},i_{M,b})^T$, $\mathbf{u}_M=(v_g-v_s,v_d-v_s,v_b-v_s)^T$, and $\mathbf{v}_M=(v_g,v_d,v_s,v_b)^T$.
 
-$$
-\mathbf{i}_M=
-\begin{bmatrix}
-i_{M,g}\
-i_{M,d}\
-i_{M,s}\
-i_{M,b}
-\end{bmatrix},\quad
-\mathbf{v}_{M}^{(G)}=
-\begin{bmatrix}
-v_g-v_s\
-v_d-v_s\
-v_b-v_s
-\end{bmatrix},\quad
-\mathbf{v}_{M}^{(C)}=
-\begin{bmatrix}
-v_g\
-v_d\
-v_s\
-v_b
-\end{bmatrix}.
-$$
+The rows of $G_M$ are ordered as $g,d,s,b$, and its columns are ordered as $gs,ds,bs$:
 
-with:
+| row | $gs$ | $ds$ | $bs$ |
+|---|---|---|---|
+| $g$ | $g_{M,gs,g}$ | $g_{M,ds,g}$ | $g_{M,bs,g}$ |
+| $d$ | $g_{M,gs,d}$ | $g_{M,ds,d}$ | $g_{M,bs,d}$ |
+| $s$ | $g_{M,gs,s}$ | $g_{M,ds,s}$ | $g_{M,bs,s}$ |
+| $b$ | $g_{M,gs,b}$ | $g_{M,ds,b}$ | $g_{M,bs,b}$ |
 
-$$
-G_M=
-\begin{bmatrix}
-g_{M,gs,g} & g_{M,ds,g} & g_{M,bs,g}\\
-g_{M,gs,d} & g_{M,ds,d} & g_{M,bs,d}\\
-g_{M,gs,s} & g_{M,ds,s} & g_{M,bs,s}\\
-g_{M,gs,b} & g_{M,ds,b} & g_{M,bs,b}
-\end{bmatrix}
-$$
+The rows of $C_M$ are ordered as $g,d,s,b$, and its columns are ordered as $g,d,s,b$:
 
-$$
-C_M=
-\begin{bmatrix}
-C_{M,g,g} & C_{M,d,g} & C_{M,s,g} & C_{M,b,g}\\
-C_{M,g,d} & C_{M,d,d} & C_{M,s,d} & C_{M,b,d}\\
-C_{M,g,s} & C_{M,d,s} & C_{M,s,s} & C_{M,b,s}\\
-C_{M,g,b} & C_{M,d,b} & C_{M,s,b} & C_{M,b,b}
-\end{bmatrix}
-$$
+| row | $g$ | $d$ | $s$ | $b$ |
+|---|---|---|---|---|
+| $g$ | $C_{M,g,g}$ | $C_{M,d,g}$ | $C_{M,s,g}$ | $C_{M,b,g}$ |
+| $d$ | $C_{M,g,d}$ | $C_{M,d,d}$ | $C_{M,s,d}$ | $C_{M,b,d}$ |
+| $s$ | $C_{M,g,s}$ | $C_{M,d,s}$ | $C_{M,s,s}$ | $C_{M,b,s}$ |
+| $b$ | $C_{M,g,b}$ | $C_{M,d,b}$ | $C_{M,s,b}$ | $C_{M,b,b}$ |
 
 For `body="off"`, remove the `b` row, `b` charge column, and `bs` conductance column.
 
@@ -679,47 +652,29 @@ g_{Q,be,r}(v_b-v_e)+g_{Q,ce,r}(v_c-v_e)
 +sC_{Q,c,r}v_c+sC_{Q,b,r}v_b+sC_{Q,e,r}v_e
 $$
 
-Matrix form:
+Compact matrix form:
 
 $$
-\begin{bmatrix}
-i_{Q,c}\\
-i_{Q,b}\\
-i_{Q,e}
-\end{bmatrix}
-=
-G_Q
-\begin{bmatrix}
-v_b-v_e\\
-v_c-v_e
-\end{bmatrix}
-+sC_Q
-\begin{bmatrix}
-v_c\\
-v_b\\
-v_e
-\end{bmatrix}
+\mathbf{i}_Q=G_Q\mathbf{u}_Q+sC_Q\mathbf{v}_Q
 $$
 
-with:
+where $\mathbf{i}_Q=(i_{Q,c},i_{Q,b},i_{Q,e})^T$, $\mathbf{u}_Q=(v_b-v_e,v_c-v_e)^T$, and $\mathbf{v}_Q=(v_c,v_b,v_e)^T$.
 
-$$
-G_Q=
-\begin{bmatrix}
-g_{Q,be,c} & g_{Q,ce,c}\\
-g_{Q,be,b} & g_{Q,ce,b}\\
-g_{Q,be,e} & g_{Q,ce,e}
-\end{bmatrix}
-$$
+The rows of $G_Q$ are ordered as $c,b,e$, and its columns are ordered as $be,ce$:
 
-$$
-C_Q=
-\begin{bmatrix}
-C_{Q,c,c} & C_{Q,b,c} & C_{Q,e,c}\\
-C_{Q,c,b} & C_{Q,b,b} & C_{Q,e,b}\\
-C_{Q,c,e} & C_{Q,b,e} & C_{Q,e,e}
-\end{bmatrix}
-$$
+| row | $be$ | $ce$ |
+|---|---|---|
+| $c$ | $g_{Q,be,c}$ | $g_{Q,ce,c}$ |
+| $b$ | $g_{Q,be,b}$ | $g_{Q,ce,b}$ |
+| $e$ | $g_{Q,be,e}$ | $g_{Q,ce,e}$ |
+
+The rows of $C_Q$ are ordered as $c,b,e$, and its columns are ordered as $c,b,e$:
+
+| row | $c$ | $b$ | $e$ |
+|---|---|---|---|
+| $c$ | $C_{Q,c,c}$ | $C_{Q,b,c}$ | $C_{Q,e,c}$ |
+| $b$ | $C_{Q,c,b}$ | $C_{Q,b,b}$ | $C_{Q,e,b}$ |
+| $e$ | $C_{Q,c,e}$ | $C_{Q,b,e}$ | $C_{Q,e,e}$ |
 
 ### 7.2 Equivalent BJT: `eq_circuit=True`
 
