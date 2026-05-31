@@ -494,29 +494,35 @@ $$
 
 The final suffix in `g_{M,gs,r}` or `C_{M,c,r}` is the KCL row terminal. The `C_{M,c,r}` symbols are terminal-charge Jacobian entries. They are not terminal-pair capacitors.
 
-For `body="on"`, the matrix form is:
+For `body="on"`, the vector relation is:
 
 $$
+\mathbf{i}_M = G_M\mathbf{v}_{M}^{(G)}+sC_M\mathbf{v}_{M}^{(C)}
+$$
+
+where:
+
+$$
+\mathbf{i}_M=
 \begin{bmatrix}
-i_{M,g}\\
-i_{M,d}\\
-i_{M,s}\\
+i_{M,g}\
+i_{M,d}\
+i_{M,s}\
 i_{M,b}
-\end{bmatrix}
-=
-G_M
+\end{bmatrix},\quad
+\mathbf{v}_{M}^{(G)}=
 \begin{bmatrix}
-v_g-v_s\\
-v_d-v_s\\
+v_g-v_s\
+v_d-v_s\
 v_b-v_s
-\end{bmatrix}
-+sC_M
+\end{bmatrix},\quad
+\mathbf{v}_{M}^{(C)}=
 \begin{bmatrix}
-v_g\\
-v_d\\
-v_s\\
+v_g\
+v_d\
+v_s\
 v_b
-\end{bmatrix}
+\end{bmatrix}.
 $$
 
 with:
